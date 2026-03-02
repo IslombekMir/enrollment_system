@@ -13,13 +13,19 @@
         <nav>
             <ul class="flex space-between flex-col md:flex-row">
                 <li><a href="{% url 'core:index' %}" class="p-6">Home</a></li>
-                <li><a href="#" class="py-6 text-center">Courses</a></li>
+                <li><a href="{% url 'courses:course_list' %}" class="py-6 text-center">Courses</a></li>
                 <li><a href="#" class="p-6">Profile</a></li>
                 {% if user.is_authenticated %}
-                    <li class="ml-auto p-6"><a href="#">Logout</a></li>
+                    <li class="ml-auto p-6">
+                        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-transparent border-none cursor-pointer p-0">Logout</button>
+                        </form>
+                    </li>
                 {% else %}
-                    <li><a href="#">Login</a></li>
-                {% endif %} 
+                    <li class="ml-auto p-6"><a href="{% url 'login' %}">Login</a></li>
+                    <li class="p-6"><a href="{% url 'core:signup' %}">Sign Up</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
