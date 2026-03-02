@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ course.title }}</h1>
+
+<p><strong>Instructor:</strong> {{ course.instructor }}</p>
+
+<hr>
+
+<p>{{ course.description }}</p>
+
+<hr>
+
+{% for lesson in course.lessons.all %}
+    <div class="bg-green-100 p-6 rounded">
+        <p class="text-2xl">Lessons</p>
+        <ul>
+            <li>{{lesson.title}}</li>
+        </ul>
+    </div>
+{%endfor%}
+
+{% if user.is_authenticated %}
+    
+    {% if user.role == "student" %}
+        <form method="post" action="#">
+            {% csrf_token %}
+            <button type="submit">
+                Enroll in this course
+            </button>
+        </form>
+
+    {% elif user.role == "instructor" and user == course.instructor %}
+        <p><strong>You are the instructor of this course.</strong></p>
+    {% endif %}
+
+{% else %}
+    <p>
+        <a href="{% url 'login' %}">
+            Login to enroll
+        </a>
+    </p>
+{% endif %}
+
+<hr>
+
+<a href="{% url 'courses:course_list' %}">
+    ← Back to Courses
+</a>
+
+{% endblock %}
