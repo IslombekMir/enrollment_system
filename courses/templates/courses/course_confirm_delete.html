@@ -2,13 +2,13 @@
 {%block title%}Course deleted{%endblock%}
 
 {%block content%}
-<div class="bg-green-100 mx-auto inline-block p-6 rounded-xl">
+<div class="bg-green-100 mx-auto mx-auto block p-6 rounded-xl">
     <form method="POST">
     {% csrf_token %}
-    <div class="grid grid-cols-2">
-        <p>Are you sure you want to delete "{{ course.title }}"?</p>
-            <button type="submit" class="col-span-2">Yes, delete</button>
-            <a href="{% url 'courses:course_list' %}">Cancel</a>
+    <div class="grid grid-cols-2 gap-6">
+        <p class="col-span-2">Are you sure you want to delete "{{ course.title }}"?</p>
+            <button type="submit" class="bg-red-200 rounded-xl p-6">Yes, delete</button>
+            <a href="{% url 'courses:course_list' %}" class="bg-blue-200 rounded-xl p-6 text-center">Cancel</a>
         </p>
     </form>
 </div>

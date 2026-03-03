@@ -40,6 +40,8 @@ def unenroll_course(request, course_id):
 def course_create(request):
     if request.user.role != "instructor":
         return redirect("core:index")
+    
+    course = None
 
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -51,7 +53,7 @@ def course_create(request):
     else:
         form = CourseForm()
 
-    return render(request, "courses/course_form.html", {"form": form})
+    return render(request, "courses/course_form.html", {"form": form, "course": course})
 
 @login_required
 def course_update(request, pk):

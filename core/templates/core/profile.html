@@ -1,8 +1,10 @@
 {% extends "core/base.html" %}
 
+{% block title %} Profile | Course Platform  {% endblock %}
+
 {% block content %}
 
-<h2>Profile</h2>
+<h2 class="text-right p-6 text-2xl">Profile</h2>
 
 <p><strong>Username:</strong> {{ user.username }}</p>
 <p><strong>Role:</strong> {{ user.role }}</p>
@@ -15,7 +17,7 @@
         <ul class="flex">
             {% for enrollment in enrolled_courses %}
                 <a href="{% url 'courses:course_detail' enrollment.course.pk %}">
-                    <li class="bg-blue-100 rounded-xl p-6 m-6">
+                    <li class="bg-blue-100 rounded-xl p-6 m-6 hover: bg-blue-200">
                         <span class="text-2xl">{{ enrollment.course.title }}</span>
                         <p>Enrolled at: {{enrollment.enrolled_at}}</p>
                     </li>
@@ -30,9 +32,14 @@
 {% if user.role == "instructor" %}
     <h3>Your Created Courses</h3>
     {% if created_courses %}
-        <ul>
+        <ul class="flex">
             {% for course in created_courses %}
-                <li><a href="{% url 'courses:course_detail' course.pk %}">{{ course.title }}</a></li>
+                <a href="{% url 'courses:course_detail' course.pk %}">
+                    <li class="bg-blue-100 rounded-xl p-6 m-6 hover:bg-blue-200">
+                        <p>{{ course.title }}</p>
+                        <p>{{course.description}}</p>
+                    </li>
+                </a>
             {% endfor %}
         </ul>
     {% else %}

@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-[100vh] flex flex-col">
     <header class="bg-green-100">
         <nav>
             <ul class="flex space-between flex-col md:flex-row">
@@ -23,18 +23,18 @@
                         </form>
                     </li>
                 {% else %}
-                    <li class="ml-auto p-6 hover:bg-green-400"><a href="{% url 'login' %}">Login</a></li>
-                    <li class="p-6 hover:bg-green-400"><a href="{% url 'core:signup' %}">Sign Up</a></li>
+                    <a href="{% url 'login' %}" class="ml-auto p-6 hover:bg-green-400"><li>Login</li></a>
+                    <a href="{% url 'core:signup' %}"  class="p-6 hover:bg-green-400"><li>Sign Up</li></a>
                 {% endif %}
             </ul>
         </nav>
     </header>
 
-    <main class="mb-auto">
+    <main class="flex-1">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-green-100 p-10 justify-self-end">
+    <footer class="bg-green-100 p-10">
         <p>This is a Coursework project for the module DSCC at WIUT university!</p>
         <ul>
             <li class="mb-6">
