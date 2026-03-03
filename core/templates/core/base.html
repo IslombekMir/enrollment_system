@@ -14,7 +14,7 @@
             <ul class="flex space-between flex-col md:flex-row">
                 <li><a href="{% url 'core:index' %}" class="p-6 hover:bg-green-400">Home</a></li>
                 <li><a href="{% url 'courses:course_list' %}" class="p-6 text-center hover:bg-green-400">Courses</a></li>
-                <li><a href="#" class="p-6 hover:bg-green-400">Profile</a></li>
+                <li><a href="{% url 'core:profile' %}" class="p-6 hover:bg-green-400">Profile</a></li>
                 {% if user.is_authenticated %}
                     <li class="ml-auto">
                         <form method="post" action="{% url 'logout' %}" style="display:inline;">

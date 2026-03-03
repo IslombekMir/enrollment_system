@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+<h2>Profile</h2>
+
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Role:</strong> {{ user.role }}</p>
+
+<hr>
+
+{% if user.role == "student" %}
+    <h3>Enrolled Courses</h3>
+    {% if enrolled_courses %}
+        <ul>
+            {% for course in enrolled_courses %}
+                <li><a href="{% url 'courses:course_detail' course.pk %}">{{ course.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You are not enrolled in any courses.</p>
+    {% endif %}
+{% endif %}
+
+{% if user.role == "instructor" %}
+    <h3>Your Created Courses</h3>
+    {% if created_courses %}
+        <ul>
+            {% for course in created_courses %}
+                <li><a href="{% url 'courses:course_detail' course.pk %}">{{ course.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't created any courses yet.</p>
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}

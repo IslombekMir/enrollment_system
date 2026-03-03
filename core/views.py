@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from django.shortcuts import render, redirect
 
+from courses.models import Course
+
 def index(request):
     return render(request, 'core/index.html')
 
