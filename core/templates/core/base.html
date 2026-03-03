@@ -8,16 +8,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
     <header class="bg-green-100">
         <nav>
             <ul class="flex space-between flex-col md:flex-row">
-                <li><a href="{% url 'core:index' %}" class="p-6 hover:bg-green-400">Home</a></li>
-                <li><a href="{% url 'courses:course_list' %}" class="p-6 text-center hover:bg-green-400">Courses</a></li>
-                <li><a href="{% url 'core:profile' %}" class="p-6 hover:bg-green-400">Profile</a></li>
+                <li><a href="{% url 'core:index' %}" class="p-6 hover:bg-green-400 inline-block">Home</a></li>
+                <li><a href="{% url 'courses:course_list' %}" class="p-6 text-center hover:bg-green-400 inline-block">Courses</a></li>
+                <li><a href="{% url 'core:profile' %}" class="p-6 hover:bg-green-400 inline-block">Profile</a></li>
                 {% if user.is_authenticated %}
                     <li class="ml-auto">
-                        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                        <form method="post" action="{% url 'logout' %}" class="inline">
                             {% csrf_token %}
                             <button type="submit" class="bg-transparent border-none cursor-pointer p-6 bg-green-200 hover:bg-green-400">Logout</button>
                         </form>
@@ -30,11 +30,11 @@
         </nav>
     </header>
 
-    <main>
+    <main class="mb-auto">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-green-100 p-10">
+    <footer class="bg-green-100 p-10 justify-self-end">
         <p>This is a Coursework project for the module DSCC at WIUT university!</p>
         <ul>
             <li class="mb-6">

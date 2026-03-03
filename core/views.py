@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from django.shortcuts import render, redirect
 
-from courses.models import Course
+from courses.models import Course, Enrollment
 
 def index(request):
     return render(request, 'core/index.html')
@@ -29,10 +29,10 @@ def profile_view(request):
     created_courses = None
 
     if user.role == "student":
-        enrolled_courses = Course.objects.filter(
-            enrollments__student=user,
-            enrollments__is_active=True
-        )
+        enrolled_courses = Enrollment.objects.filter(
+            student=user,
+            is_active=True,
+        ).select_related('course')
 
     elif user.role == "instructor":
         created_courses = Course.objects.filter(instructor=user)

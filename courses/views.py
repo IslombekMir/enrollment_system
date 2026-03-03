@@ -12,7 +12,7 @@ def course_list(request):
 
 def course_detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
-    is_enrolled = Enrollment.objects.filter(student=request.user, course=course).exists()
+    is_enrolled = Enrollment.objects.filter(student=request.user, course=course, is_active=True).exists()
     return render(request, 'courses/course_detail.html', {
         'course': course,
         'is_enrolled': is_enrolled,
@@ -22,12 +22,19 @@ def course_detail(request, pk):
 def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     
-    try:
-        Enrollment.objects.create(student=request.user, course=course)
-    except IntegrityError:
-        pass
+    Enrollment.objects.update_or_create(
+        student=request.user,
+        course=course,
+        defaults={'is_active': True}
+    )
     
     return redirect('courses:course_detail', pk=course.id)
+
+@login_required
+def unenroll_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    Enrollment.objects.filter(student=request.user, course=course).update(is_active=False)
+    return redirect('core:profile')
 
 @login_required
 def course_create(request):

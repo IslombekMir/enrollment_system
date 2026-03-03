@@ -32,6 +32,10 @@
     {% if user.role == "student" %}
         {% if is_enrolled %}
             <button disabled>Already Enrolled</button>
+            <form method="post" action="{% url 'courses:unenroll_course' course.id %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-200 rounded-xl p-6 inline-block m-6">Unenroll</button>
+            </form>
         {% else %}
             <form method="post" action="{% url 'courses:enroll_course' course.id %}">
                 {% csrf_token %}
