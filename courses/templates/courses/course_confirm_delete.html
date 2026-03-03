@@ -1,0 +1,15 @@
+{%extends 'core/base.html'%}
+{%block title%}Course deleted{%endblock%}
+
+{%block content%}
+<div class="bg-green-100 mx-auto inline-block p-6 rounded-xl">
+    <form method="POST">
+    {% csrf_token %}
+    <div class="grid grid-cols-2">
+        <p>Are you sure you want to delete "{{ course.title }}"?</p>
+            <button type="submit" class="col-span-2">Yes, delete</button>
+            <a href="{% url 'courses:course_list' %}">Cancel</a>
+        </p>
+    </form>
+</div>
+{%endblock%}

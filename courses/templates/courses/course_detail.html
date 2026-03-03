@@ -23,26 +23,26 @@
     </div>
 {%endfor%}
 
-{% if user.is_authenticated %}
-    
-    {% if user.role == "student" %}
-        <form method="post" action="#">
-            {% csrf_token %}
-            <button type="submit">
-                Enroll in this course
-            </button>
-        </form>
+{% if user == course.instructor %}
+    <a href="{% url 'courses:course_update' course.pk %}" class="m-6 inline-block bg-blue-100 hover:bg-blue-200 p-6 rounded-xl">Edit</a>
+    <a href="{% url 'courses:course_delete' course.pk %}" class="m-6 inline-block bg-red-100 hover:bg-red-200 p-6 rounded-xl">Delete</a>
+{% endif %}
 
+{% if user.is_authenticated %}
+    {% if user.role == "student" %}
+        {% if is_enrolled %}
+            <button disabled>Already Enrolled</button>
+        {% else %}
+            <form method="post" action="{% url 'courses:enroll_course' course.id %}">
+                {% csrf_token %}
+                <button type="submit">Enroll in this course</button>
+            </form>
+        {% endif %}
     {% elif user.role == "instructor" and user == course.instructor %}
         <p><strong>You are the instructor of this course.</strong></p>
     {% endif %}
-
 {% else %}
-    <p>
-        <a href="{% url 'login' %}">
-            Login to enroll
-        </a>
-    </p>
+    <p><a href="{% url 'login' %}">Login to enroll</a></p>
 {% endif %}
 
 <hr>

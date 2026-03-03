@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from django.shortcuts import render, redirect
 
@@ -17,3 +18,27 @@ def signup(request):
         form = SignUpForm()
 
     return render(request, "core/signup.html", {"form": form})
+
+@login_required
+def profile_view(request):
+    user = request.user
+
+    enrolled_courses = None
+    created_courses = None
+
+    if user.role == "student":
+        enrolled_courses = Course.objects.filter(
+            enrollments__student=user,
+            enrollments__is_active=True
+        )
+
+    elif user.role == "instructor":
+        created_courses = Course.objects.filter(instructor=user)
+
+    context = {
+        "user": user,
+        "enrolled_courses": enrolled_courses,
+        "created_courses": created_courses,
+    }
+
+    return render(request, "core/profile.html", context)
