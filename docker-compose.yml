@@ -1,17 +1,43 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: enrollment_db
+      POSTGRES_USER: enrollment_user
+      POSTGRES_PASSWORD: enrollment_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build: .
     container_name: django_app
     command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "
+        echo 'Waiting for postgres...';
+        while ! nc -z db 5432; do
+          sleep 1;
+        done;
+        echo 'PostgreSQL started';
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
     volumes:
       - .:/app
-      - sqlite_data:/app/db
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_NAME: enrollment_db
+      DB_USER: enrollment_user
+      DB_PASSWORD: enrollment_password
+      DB_HOST: db
+      DB_PORT: 5432
 
 volumes:
-  sqlite_data:
+  postgres_data:
