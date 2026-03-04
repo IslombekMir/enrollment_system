@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5(8p)a5puj6m89q%jijv^b_eb9s0w=k^*(=r@20a-cgx12gvd0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'enrollment_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "NAME": "/app/db/db.sqlite3",
     }
 }
 
