@@ -12,7 +12,7 @@ services:
       - "5432:5432"
 
   web:
-    build: .
+    image: islombekwiut/course-enrollment-system:latest
     container_name: django_app
     command: >
       sh -c "
@@ -24,7 +24,6 @@ services:
         gunicorn enrollment_system.wsgi:application --bind 0.0.0.0:8000 --workers 3
       "
     volumes:
-      - .:/app
       - static_volume:/app/staticfiles
     depends_on:
       - db
