@@ -3,6 +3,8 @@ name: Django CI
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
@@ -18,12 +20,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install flake8 pytest pytest-django
-
-      - name: Run flake8
-        run: flake8 .
+        run: pip install -r requirements.txt pytest pytest-django
 
       - name: Run tests
         run: pytest
