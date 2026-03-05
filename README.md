@@ -47,8 +47,9 @@ Environment Variables
 - Then edit .env with your values.
 
 Application Screenshots
-![Home](/screenshots/telegram-cloud-photo-size-2-5282917376355668951-y.jpg)
-![Profile](/screenshots/telegram-cloud-photo-size-2-5282917376355668954-y.jpg)
-![Courses](/screenshots/telegram-cloud-photo-size-2-5282917376355668955-y.jpg)
+![Home](/screenshots/home.jpg)
+![Courses](/screenshots/courses.jpg)
+![Profile](/screenshots/profile.jpg)
+
 
 
