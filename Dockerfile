@@ -1,31 +1,42 @@
-# Use official Python image
-FROM python:3.11-slim
+# -------- STAGE 1: Builder --------
+FROM python:3.11-slim AS builder
 
-# Prevent Python from writing pyc files
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install build dependencies only here
 RUN apt-get update && apt-get install -y \
     build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+# Upgrade pip and install dependencies into a custom directory
+RUN pip install --upgrade pip
+RUN pip install --prefix=/install -r requirements.txt
+
+
+# -------- STAGE 2: Final Image --------
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Only install runtime dependency (no compiler!)
+RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first (better caching)
-COPY requirements.txt .
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
 
-# Install Python dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Copy project
+# Copy project files
 COPY . .
 
-# Expose port
 EXPOSE 8000
 
-# Run Django
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"]
