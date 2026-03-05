@@ -131,3 +131,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://course-enrollment-system.uz",
+    "https://www.course-enrollment-system.uz",
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
