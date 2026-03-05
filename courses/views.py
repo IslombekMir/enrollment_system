@@ -85,3 +85,4 @@ def course_delete(request, pk):
 
     return render(request, "courses/course_confirm_delete.html", {"course": course})
 ## test comment
+## another comment
