@@ -1,8 +1,8 @@
-[flake8]
-ignore = E501,W293,W291,W292,W191,E101,E302,E301,E261,E262,F401,F403
-exclude =
-    migrations,
-    __pycache__,
-    venv,
-    .venv
-max-line-length = 120
+; [flake8]
+; ignore = E501,W293,W291,W292,W191,E101,E302,E301,E261,E262,F401,F403
+; exclude =
+;     migrations,
+;     __pycache__,
+;     venv,
+;     .venv
+; max-line-length = 120
