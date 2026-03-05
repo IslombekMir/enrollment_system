@@ -17,9 +17,7 @@ services:
     command: >
       sh -c "
         echo 'Waiting for postgres...';
-        while ! nc -z db 5432; do
-          sleep 1;
-        done;
+        while ! nc -z db 5432; do sleep 1; done;
         echo 'PostgreSQL started';
         python manage.py migrate &&
         python manage.py collectstatic --noinput &&
@@ -32,6 +30,11 @@ services:
       - db
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/ || exit 1"]
+      interval: 5s
+      retries: 10
+      start_period: 10s
 
   nginx:
     image: nginx:alpine
@@ -41,7 +44,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - static_volume:/static
     depends_on:
-      - web
+      web:
+        condition: service_healthy
 
 volumes:
   postgres_data:
